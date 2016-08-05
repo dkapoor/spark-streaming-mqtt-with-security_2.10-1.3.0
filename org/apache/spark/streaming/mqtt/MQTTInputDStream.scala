@@ -98,9 +98,11 @@ class MQTTReceiver(
     	// Create a secure connection
     	connectOptions.setUserName(userName)
     	connectOptions.setPassword(password.toCharArray())
-    	val sslContext = SSLContext.getInstance("TLSv1.2");
-    	sslContext.init(null, null, null);
-    	connectOptions.setSocketFactory(sslContext.getSocketFactory());
+      if(brokerUrl.indexOf("ssl") == 0) {
+      	val sslContext = SSLContext.getInstance("TLSv1.2");
+      	sslContext.init(null, null, null);
+      	connectOptions.setSocketFactory(sslContext.getSocketFactory());
+      }
     }
 
     // Callback automatically triggers as and when new message arrives on specified topic
